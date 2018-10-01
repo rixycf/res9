@@ -12,10 +12,6 @@ import (
 	"os"
 )
 
-// type customClient struct {
-// 	client.Client
-// }
-
 func main() {
 
 	ctx := context.Background()
@@ -40,34 +36,35 @@ func main() {
 			fmt.Println(err)
 			os.Exit(1)
 		}
+		fmt.Println(resultInspect)
 
 	}
 
 }
 
-func getHealthStatus(cj types.ContainerJson) string {
+func getHealthStatus(cj types.ContainerJSON) string {
 	if cj.State.Health != nil {
 		return cj.State.Health.Status
 	}
 	return ""
 }
 
-func ReviveContainer(cli *client.Client, ctx context.Context, cj types.ContainerJson) error {
+func ReviveContainer(cli *client.Client, ctx context.Context, cj types.ContainerJSON) error {
 
 	fmt.Println("stop container ... : ")
-	err := cli.ContainerStop(ctx, id, nil)
+	err := cli.ContainerStop(ctx, cj.ID, nil)
 	if err != nil {
 		return err
 	}
 
-	fmt.Println("remove container ...: ", id)
-	err = cli.ContainerRemove(ctx, id, types.ContainerRemoveOptions{})
+	fmt.Println("remove container ...: ", cj.ID)
+	err = cli.ContainerRemove(ctx, cj.ID, types.ContainerRemoveOptions{})
 	if err != nil {
 		return err
 	}
 
 	config := &container.Config{
-		Image: "066e88b2a453",
+		Image: cj.Image,
 		ExposedPorts: nat.PortSet{
 			nat.Port("53/udp"): struct{}{},
 		},
