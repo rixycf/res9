@@ -1,0 +1,15 @@
+alpine:
+  image: alpine:3.6
+  command: /bin/sh
+  tty: true
+
+adblocker:
+  image: rixycf/dnsmasq_health:0.1
+  ports:
+    - "53:53/udp"
+  cap_add:
+    - NET_ADMIN
+  command: /bin/sh
+  tty: true
+
+

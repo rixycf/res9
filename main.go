@@ -4,9 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/docker/docker/api/types"
-	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/network"
-	"github.com/docker/go-connections/nat"
 
 	"github.com/docker/docker/client"
 	"os"
@@ -29,15 +27,20 @@ func main() {
 	}
 
 	for _, cl := range containerList {
-		fmt.Println(cl.Image)
-
 		resultInspect, err := cli.ContainerInspect(ctx, cl.ID)
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
 		}
-		fmt.Println(resultInspect)
 
+		if getHealthStatus(resultInspect) == "unhealthy" {
+			fmt.Println("unhealhy container ID: ", resultInspect.ID)
+			err = ReviveContainer(cli, ctx, resultInspect)
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+		}
 	}
 
 }
@@ -51,7 +54,7 @@ func getHealthStatus(cj types.ContainerJSON) string {
 
 func ReviveContainer(cli *client.Client, ctx context.Context, cj types.ContainerJSON) error {
 
-	fmt.Println("stop container ... : ")
+	fmt.Println("stop container ... : ", cj.ID)
 	err := cli.ContainerStop(ctx, cj.ID, nil)
 	if err != nil {
 		return err
@@ -63,22 +66,9 @@ func ReviveContainer(cli *client.Client, ctx context.Context, cj types.Container
 		return err
 	}
 
-	config := &container.Config{
-		Image: cj.Image,
-		ExposedPorts: nat.PortSet{
-			nat.Port("53/udp"): struct{}{},
-		},
-	}
-
+	fmt.Println("create container ...")
 	netconfig := &network.NetworkingConfig{}
-
-	hostConfig := &container.HostConfig{
-		PortBindings: nat.PortMap{
-			nat.Port("53/udp"): []nat.PortBinding{{HostPort: "53"}},
-		},
-	}
-
-	createbody, err := cli.ContainerCreate(ctx, config, hostConfig, netconfig, "adblocker")
+	createbody, err := cli.ContainerCreate(ctx, cj.Config, cj.HostConfig, netconfig, cj.Name)
 	if err != nil {
 		return err
 	}
