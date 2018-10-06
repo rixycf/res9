@@ -6,6 +6,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/robfig/cron"
 	"github.com/takama/daemon"
 )
 
@@ -47,7 +48,10 @@ func (service *Service) Manage() (string, error) {
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt, os.Kill, syscall.SIGTERM)
 	// do healthcheck
-
+	c := cron.New()
+	// every minute
+	c.AddFunc("0 * * * * *", rescue)
+	c.Start()
 	// wait for intterrupt signal
 	killSignal := <-interrupt
 	stdlog.Println("Got signal: ", killSignal)

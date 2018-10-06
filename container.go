@@ -37,7 +37,7 @@ func rescue() {
 
 		if getHealthStatus(resultInspect) == "unhealthy" {
 			fmt.Println("unhealhy container ID: ", resultInspect.ID)
-			err = reviveContainer(cli, ctx, resultInspect)
+			err = reviveContainer(ctx, cli, resultInspect)
 			if err != nil {
 				fmt.Println(err)
 				os.Exit(1)
