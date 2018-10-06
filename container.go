@@ -10,11 +10,16 @@ import (
 	"os"
 )
 
+const (
+	host    = "unix:///var/run/docker.sock"
+	version = "1.38"
+)
+
 // rescue func inspect unhealth container, and revive it.
 func rescue() {
 
 	ctx := context.Background()
-	cli, err := client.NewEnvClient()
+	cli, err := client.NewClient(host, version, nil, nil)
 	if err != nil {
 		fmt.Println("create client error: ", err)
 		os.Exit(1)
