@@ -56,19 +56,16 @@ func getHealthStatus(cj types.ContainerJSON) string {
 
 func reviveContainer(ctx context.Context, cli *client.Client, cj types.ContainerJSON) error {
 
-	fmt.Println("stop container ... : ", cj.ID)
 	err := cli.ContainerStop(ctx, cj.ID, nil)
 	if err != nil {
 		return err
 	}
 
-	fmt.Println("remove container ...: ", cj.ID)
 	err = cli.ContainerRemove(ctx, cj.ID, types.ContainerRemoveOptions{})
 	if err != nil {
 		return err
 	}
 
-	fmt.Println("create container ...")
 	netconfig := &network.NetworkingConfig{}
 	createbody, err := cli.ContainerCreate(ctx, cj.Config, cj.HostConfig, netconfig, cj.Name)
 	if err != nil {
@@ -79,7 +76,6 @@ func reviveContainer(ctx context.Context, cli *client.Client, cj types.Container
 	if err != nil {
 		return err
 	}
-	fmt.Println("start container: ", createbody.ID)
 
 	return nil
 }

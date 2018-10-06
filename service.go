@@ -11,12 +11,17 @@ import (
 )
 
 const (
-	name        = "revive"
-	description = "revive container service test"
+	name        = "res9"
+	description = "revive container service"
 	exitMessage = "Service exited"
 )
 
 var stdlog, errlog *log.Logger
+
+func init() {
+	stdlog = log.New(os.Stdout, "", log.Ldate|log.Ltime)
+	errlog = log.New(os.Stderr, "", log.Ldate|log.Ltime)
+}
 
 // Service is daemon service
 type Service struct {
@@ -26,7 +31,7 @@ type Service struct {
 // Manage by daemon commands or run the daemon
 func (service *Service) Manage() (string, error) {
 
-	usage := "Usage: cron_job install | remove | start | stop | status "
+	usage := "Usage: res9 install | remove | start | stop | status "
 
 	if len(os.Args) > 1 {
 		command := os.Args[1]
@@ -57,9 +62,4 @@ func (service *Service) Manage() (string, error) {
 	stdlog.Println("Got signal: ", killSignal)
 
 	return exitMessage, nil
-}
-
-func init() {
-	stdlog = log.New(os.Stdout, "", log.Ldate|log.Ltime)
-	errlog = log.New(os.Stderr, "", log.Ldate|log.Ltime)
 }
