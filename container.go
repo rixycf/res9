@@ -10,7 +10,8 @@ import (
 	"os"
 )
 
-func healthCheck() {
+// rescue func inspect unhealth container, and revive it.
+func rescue() {
 
 	ctx := context.Background()
 	cli, err := client.NewEnvClient()
@@ -53,7 +54,7 @@ func getHealthStatus(cj types.ContainerJSON) string {
 	return ""
 }
 
-func reviveContainer(cli *client.Client, ctx context.Context, cj types.ContainerJSON) error {
+func reviveContainer(ctx context.Context, cli *client.Client, cj types.ContainerJSON) error {
 
 	fmt.Println("stop container ... : ", cj.ID)
 	err := cli.ContainerStop(ctx, cj.ID, nil)

@@ -17,10 +17,12 @@ const (
 
 var stdlog, errlog *log.Logger
 
+// Service is daemon service
 type Service struct {
 	daemon.Daemon
 }
 
+// Manage by daemon commands or run the daemon
 func (service *Service) Manage() (string, error) {
 
 	usage := "Usage: cron_job install | remove | start | stop | status "
@@ -32,6 +34,8 @@ func (service *Service) Manage() (string, error) {
 			return service.Install()
 		case "remove":
 			return service.Remove()
+		case "start":
+			return service.Start()
 		case "stop":
 			return service.Stop()
 		case "status":
