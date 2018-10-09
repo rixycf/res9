@@ -37,7 +37,7 @@ Starting revive container service:                                      [  OK  ]
 ```
 
 __result__
-![systemd](https://raw.githubusercontent/rixycf/res9/master/image/systemd_status.png)
+![systemd](https://raw.githubusercontent/rixycf/res9/blob/master/image/systemd_status.png)
 <!-- ![alt text](https://raw.githubusercontent.com/username/projectname/branch/path/to/img.png) -->
 
 
