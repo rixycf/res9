@@ -1,2 +1,3 @@
-*.txt
-Dockerfile*
+*
+!*.go
+!README.md

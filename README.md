@@ -30,36 +30,48 @@ Procedure of run as a service is as follows.
 
 ```
 $ sudo ./res9 install
+Install revive container service:                                       [  OK  ]
+
 $ sudo ./res9 start
+Starting revive container service:                                      [  OK  ]
 ```
 
 __result__
-\\\\\\\\ image \\\\\\\\\
 
 Usage
 ----
 
 __install service__  
+
 ```
-$ sudo ./res9 install
+pi:~$ sudo ./res9 install
+Install revive container service:                                       [  OK  ]
 ```
 
 __start service__  
+
 ```
-$ sudo ./res9 start
+pi:~$ sudo ./res9 start
+Starting revive container service:                                      [  OK  ]
 ```
 
 __stop service__  
+
 ```
-$ sudo ./res9 stop
+pi:~$ sudo ./res9 stop
+Stopping revive container service:                                      [  OK  ]
 ```
 
 __remove service__  
+
 ```
-$ sudo ./res9 remove
+pi:~$ sudo ./res9 remove
+Removing revive container service:                                      [  OK  ]
 ```
 
 __show service status__  
+
 ```
-$ sudo ./res9 status
+pi:~$ sudo ./res9 status
+Service (pid  3887) is running...
 ```

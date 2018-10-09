@@ -24,7 +24,6 @@ func rescue() {
 		return
 	}
 
-	// =============================================
 	listOp := types.ContainerListOptions{}
 	containerList, err := cli.ContainerList(ctx, listOp)
 	if err != nil {
@@ -48,7 +47,6 @@ func rescue() {
 			}
 		}
 	}
-	// ===============================================
 }
 
 func getHealthStatus(cj types.ContainerJSON) string {
