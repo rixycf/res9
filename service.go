@@ -52,9 +52,10 @@ func (service *Service) Manage() (string, error) {
 	}
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt, os.Kill, syscall.SIGTERM)
-	// do healthcheck
+
+	// ---------- healthcheck --------------
 	c := cron.New()
-	// every minute
+	// execute rescue func every minute
 	c.AddFunc("0 * * * * *", rescue)
 	c.Start()
 	// wait for intterrupt signal
