@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -15,13 +14,6 @@ const (
 	description = "revive container service"
 	exitMessage = "Service exited"
 )
-
-var stdlog, errlog *log.Logger
-
-func init() {
-	stdlog = log.New(os.Stdout, "", log.Ldate|log.Ltime)
-	errlog = log.New(os.Stderr, "", log.Ldate|log.Ltime)
-}
 
 // Service is daemon service
 type Service struct {
