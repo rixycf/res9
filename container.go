@@ -21,31 +21,31 @@ func rescue() {
 	ctx := context.Background()
 	cli, err := client.NewClient(host, version, nil, nil)
 	if err != nil {
-		fmt.Println("create client error: ", err)
-		os.Exit(1)
+		errlog.Println("Error: ", err)
+		return
 	}
 
 	// =============================================
 	listOp := types.ContainerListOptions{}
 	containerList, err := cli.ContainerList(ctx, listOp)
 	if err != nil {
-		fmt.Println("show container list error:", err)
-		os.Exit(1)
+		errlog.Println("Error: ", err)
+		return
 	}
 
 	for _, cl := range containerList {
 		resultInspect, err := cli.ContainerInspect(ctx, cl.ID)
 		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+			errlog.Println("Error: ", err)
+			return
 		}
 
 		if getHealthStatus(resultInspect) == "unhealthy" {
 			fmt.Println("unhealhy container ID: ", resultInspect.ID)
 			err = reviveContainer(ctx, cli, resultInspect)
 			if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
+				errlog.Println("Error: ", err)
+				return
 			}
 		}
 	}
