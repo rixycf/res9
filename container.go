@@ -7,7 +7,6 @@ import (
 	"github.com/docker/docker/api/types/network"
 
 	"github.com/docker/docker/client"
-	"os"
 )
 
 const (
