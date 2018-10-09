@@ -1,4 +1,2 @@
-*
-!*.go
-!README.md
-!/image/
+*.txt
+_ignore/
